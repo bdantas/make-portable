@@ -13,15 +13,15 @@ main()
 copy_libs()
 {
 	for target in $(ldd "$app_path" | grep '=>' | awk '{print $3}'); do
-	    if [ -h "$target" ]; then
-	        link_to_library="$target"
-	        library="$(readlink -f "$target")"
-	        cp -P "$link_to_library" "$project_dir/lib/"
-	        cp "$library" "$project_dir/lib/"
-	    else
+		if [ -h "$target" ]; then
+			link_to_library="$target"
+			library="$(readlink -f "$target")"
+			cp -P "$link_to_library" "$project_dir/lib/"
+			cp "$library" "$project_dir/lib/"
+		else
 			library="$target"
-	        cp "$library" "$project_dir/lib/"
-	    fi
+			cp "$library" "$project_dir/lib/"
+		fi
 	done
 }
 
