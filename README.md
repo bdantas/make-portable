@@ -14,10 +14,12 @@ So that, when that dusty old machine you haven't upgraded in years needs the new
 Sure. Main reason I created this script is so that I can build the newest mpv media player on my personal laptop, then run it on my digital media player, which uses an extremely ancient GNU/Linux OS. So I'll use mpv as an example.
 
 1. Build newest mpv from source on my laptop and install it. I test it and see that it works properly.
-2. Run this command on my laptop: `$ make-portable mpv`.
+2. Run this command on my laptop: `$ make-portable mpv`
+
 3a. Copy "mpv-portable.tgz" and the "mpv" launcher script from my home directory onto a thumbdrive.
+
 3b. Copy "mpv-portable.tgz" and the "mpv" launcher script from thumbdrive to some directory in my media player.
-4. In media player: `$ /path/to/mpv /path/to/nicemovie.mkv`.
+4. In media player: `$ /path/to/mpv /path/to/nicemovie.mkv`
 
 # Hasn't this been done before?
 Not exactly.
@@ -29,7 +31,7 @@ In Debian-like OSes it is possible to have multiple versions of gcc and g++ inst
 I've never had success with using older glibc on newer machine with newer machine's default gcc. It seems that gcc version is tightly coupled with glibc version. However, there is an extremely clever way around this: https://github.com/wheybags/glibc_version_header The limitation here is that a workaround for g++/libstdc++ is still in the works. And even when it is found, there is still the issue of missing ancillary shared libraries as I mentioned above.
 
 # So how does it work?
-An LD_LIBRARY_PATH hack works great when the portability issue is missing *ancillary* shared libraries. However, glibc cannot be overridden by LD_LIBRARY_PATH. Fortunately, if the linker (ld) is called directly using the `--library-path` flag, then ancillary shared libraries as well as glibc/libstdc++ can be overriden. This is the central idea of my script.
+An LD_LIBRARY_PATH hack works great when the portability issue is missing *ancillary* shared libraries. However, glibc cannot be overridden by LD_LIBRARY_PATH. Fortunately, if the linker (ld) is called directly using the `--library-path` flag, then ancillary shared libraries as well as glibc/libstdc++ can be overriden. This is the central idea of my script. Also, by bundling *all* ancillary shared libraries, it is virtually impossible that anything necessary will be missing.
 
 # What are the caveats?
 1. If the application is a single binary written in C/C++ that needs only glibc, libstdc++, and ancillary shared libraries, then the script takes care of everything automatically for you. If the application consists of multiple binaries and/or has data files, then manual intervention will be needed.
