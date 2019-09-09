@@ -2,68 +2,68 @@
 
 main()
 {
-	copy_libs
-	copy_linker
-	copy_binary
-	create_wrapper
-	create_tarball
-	create_launcher
+    copy_libs
+    copy_linker
+    copy_binary
+    create_wrapper
+    create_tarball
+    create_launcher
 }
 
 copy_libs()
 {
-	for target in $(ldd "$app_path" | grep '=>' | awk '{print $3}'); do
-		if [ -h "$target" ]; then
-			link_to_library="$target"
-			library="$(readlink -f "$target")"
-			cp -P "$link_to_library" "$project_dir/lib/"
-			cp "$library" "$project_dir/lib/"
-		else
-			library="$target"
-			cp "$library" "$project_dir/lib/"
-		fi
-	done
+    for target in $(ldd "$app_path" | grep '=>' | awk '{print $3}'); do
+        if [ -h "$target" ]; then
+            link_to_library="$target"
+            library="$(readlink -f "$target")"
+            cp -P "$link_to_library" "$project_dir/lib/"
+            cp "$library" "$project_dir/lib/"
+        else
+            library="$target"
+            cp "$library" "$project_dir/lib/"
+        fi
+    done
 }
 
 copy_linker()
 {
-	target="$(ldd /usr/bin/mpv | grep -v '=>' | grep -v vdso | grep ld | awk '{print $1}')"
-	linker="$(readlink -f "$target")"
-	cp "$linker" "$project_dir/lib/ld"
+    target="$(ldd /usr/bin/mpv | grep -v '=>' | grep -v vdso | grep ld | awk '{print $1}')"
+    linker="$(readlink -f "$target")"
+    cp "$linker" "$project_dir/lib/ld"
 }
 
 copy_binary()
 {
-	cp "$app_path" "$project_dir/bin"
+    cp "$app_path" "$project_dir/bin"
 }
 
 create_wrapper()
 {
-	echo '#!/bin/sh
+    echo '#!/bin/sh
 HERE=$(dirname $(readlink -f "${0}"))
 exec $HERE/lib/ld --library-path $HERE/lib $HERE/bin "$@"' >"$project_dir/wrapper"
-	chmod a+x "$project_dir/wrapper"
+    chmod a+x "$project_dir/wrapper"
 }
 
 create_tarball()
 {
-	cd "$project_dir/.."
-	tar -cvzf "${project_dir}.tgz" "${app_name}-portable/" && rm -rf "${project_dir}"
+    cd "$project_dir/.."
+    tar -cvzf "${project_dir}.tgz" "${app_name}-portable/" && rm -rf "${project_dir}"
 }
 
 create_launcher()
 {
-	echo '#!/bin/sh
+    echo '#!/bin/sh
 HERE=$(dirname $(readlink -f "${0}"))
 NAME=$(basename $(readlink -f "${0}"))
 if [ ! -d /tmp/${NAME}-portable ]; then
-	pwd="$(pwd)"
-	cd /tmp
-	tar -xzf ${HERE}/${NAME}-portable.tgz
-	cd "$pwd"
+    pwd="$(pwd)"
+    cd /tmp
+    tar -xzf ${HERE}/${NAME}-portable.tgz
+    cd "$pwd"
 fi
 exec /tmp/${NAME}-portable/wrapper "$@"' >$HOME/$app_name
-	chmod a+x $HOME/$app_name
+    chmod a+x $HOME/$app_name
 }
 
 app_name="$1"
