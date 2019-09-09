@@ -31,6 +31,9 @@ I've never had success with using older glibc on newer machine with newer machin
 # So how does it work?
 An LD_LIBRARY_PATH hack works great when the portability issue is missing *ancillary* shared libraries. However, glibc cannot be overridden by LD_LIBRARY_PATH. Fortunately, if the linker (ld) is called directly using the `--library-path` flag, then ancillary shared libraries as well as glibc/libstdc++ can be overriden. This is the central idea of my script. Also, by bundling *all* ancillary shared libraries, it is virtually impossible that anything necessary will be missing.
 
+# What are the dependencies to use this?
+coreutils, grep, awk, tar, and ldd (in Debian, ldd is part of libc-bin). I tried to use only tools that are expected to be present on every GNU/Linux system, so you shouldn't need to install anything on source or target OS. Also, root privileges are not needed to run the script on source OS or to run the portable application on the target OS.
+
 # What are the caveats?
 1. If the application is a single binary written in C/C++ that needs only glibc, libstdc++, and ancillary shared libraries, then the script takes care of everything automatically for you. If the application consists of multiple binaries and/or has data files, then manual intervention will be needed.
 2. The tarball may be huge.
