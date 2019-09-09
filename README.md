@@ -38,11 +38,7 @@ coreutils, grep, awk, tar, and ldd (in Debian, ldd is part of libc-bin). I tried
 1. If the application is a single binary written in C/C++ that needs only glibc, libstdc++, and ancillary shared libraries, then the script takes care of everything automatically for you. If the application consists of multiple binaries and/or has data files, then manual intervention will be needed.
 2. The tarball will obviously be larger than the application's normal size (e.g., my mpv-portable.tgz is ~40 MB when the binary itself is only 30 MB).
 3. Running the application on target OS will use more RAM than it would if you were to do the "right thing" (see #5 below).
-4. The tarball contains only those shared libraries that the binary itself is linked to. If, while running on the target system, the binary tries to load additional shared libraries for some reason (e.g., to initialize video once the application has determined what hardware is present), it will look for libraries in the directories where they usually reside in the *source* OS. I encountered this problem with the portable mpv, which couldn't find some shared video libraries when running in the target OS. One solution if this occurs is to create symlinks on the target OS pointing from where binary is looking to where the libraries are located. In my case, source OS where I created the portable application is Debian and target is an ancient Arch Linux, so I needed to run this command on target OS to fix the issue:
-```
-$ sudo mkdir -p /usr/lib/x86_64-linux-gnu
-$ sudo ln -s /usr/lib/xorg/modules/dri /usr/lib/x86_64-linux-gnu/dri
-```
+4. foo-portable.tgz will contain only the shared libraries that the binary itself is linked to. If while running on the target system the portable app (either the binary itself or the bundled libraries) tries to load additional libraries, it will look in the places where those libraries reside in the *source* OS. If source and target OSes put things in different places, the portable app may fail to find what the additional library/libraries. If you are affected by this problem, an easy solution is to create symlinks in the target OS. Just use `find` or `locate` in both source and target OS to figure out where the symlink should point *from* (location of library in source OS) and *to* (actual location of library in target OS).
 5. A better approach than to use make-portable is to roll up your sleeves and compile on the old target machine. Using this script suggests that you're as lazy as I am, which is not a good thing.
 
 # Your hack is very ugly.
