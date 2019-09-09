@@ -36,7 +36,7 @@ coreutils, grep, awk, tar, and ldd (in Debian, ldd is part of libc-bin). I tried
 
 # What are the caveats?
 1. If the application is a single binary written in C/C++ that needs only glibc, libstdc++, and ancillary shared libraries, then the script takes care of everything automatically for you. If the application consists of multiple binaries and/or has data files, then manual intervention will be needed.
-2. The tarball may be huge.
+2. The tarball may be huge (e.g., my mpv-portable.tgz is 64 MB).
 3. Running the application on target OS will use a lot more RAM than it would if you were to do the "right thing" (see #4 below).
 4. Using this script proves that your are lazy--that you desperately need an application but refuse to pull up your sleeves and do the right thing by compiling on the old target machine. I won't judge you.
 
