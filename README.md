@@ -14,10 +14,10 @@ So that, when that dusty old machine you haven't upgraded in years needs the new
 Sure. Main reason I created this script is so that I can build the newest mpv media player on my personal laptop, then run it on my digital media player, which uses an extremely ancient GNU/Linux OS. So I'll use mpv as an example.
 
 1. Build newest mpv from source on my laptop and install it. I test it and see that it works properly.
-2. Run this command on my laptop: $ make-portable mpv
-3a. Copy "mpv-portable.tgz" and the "mpv" launcher script from my home directory onto a thumbdrive
-3b. Copy "mpv-portable.tgz" and the "mpv" launcher script from thumbdrive to some directory in my media player
-4. In media player: $ /path/to/mpv /path/to/nicemovie.mkv
+2. Run this command on my laptop: `$ make-portable mpv`.
+3a. Copy "mpv-portable.tgz" and the "mpv" launcher script from my home directory onto a thumbdrive.
+3b. Copy "mpv-portable.tgz" and the "mpv" launcher script from thumbdrive to some directory in my media player.
+4. In media player: `$ /path/to/mpv /path/to/nicemovie.mkv`.
 
 # Hasn't this been done before?
 Not exactly.
