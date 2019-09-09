@@ -16,8 +16,8 @@ Sure. Main reason I created this script is so that I can build the newest mpv me
 1. Build newest mpv from source on my laptop and install it. I test it and see that it works properly.
 2. Run this command on my laptop: `$ make-portable mpv`
 3. Copy "mpv-portable.tgz" and the "mpv" launcher script from my home directory onto a thumbdrive.
-4. Copy "mpv-portable.tgz" and the "mpv" launcher script from thumbdrive to some directory in my media player.
-5. In media player: `$ /path/to/mpv /path/to/nicemovie.mkv`
+4. Copy "mpv-portable.tgz" and the "mpv" launcher script from thumbdrive to home directory in media player.
+5. In media player: `$ /home/player/mpv /home/player/Videos/nicemovie.mkv`
 
 # Hasn't this been done before?
 Not exactly.
