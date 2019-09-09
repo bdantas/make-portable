@@ -2,7 +2,7 @@
 Shell script that creates portable version of a GNU/Linux application that can be used on an older target OS.
 
 # Why would I want this?
-So that, when that dusty old machine you haven't upgraded in years needs the newest version of some application, you can avoid the pain of having to compile software on the old machine. If you want to be able to build an application on your daily-driver GNU/Linux OS then bundle everything that's needed for the application to run on an older OS, then this script may do the trick for you.
+So that, when that dusty old machine you haven't upgraded in years needs the newest version of some C or C++ application, you can avoid the pain of having to compile software on the old machine. If you want to be able to build an application on your daily-driver GNU/Linux OS then bundle everything that's needed for the application to run on an older OS, then this script may do the trick for you.
 
 # How do I use it?
 1. Install the desired application on the source GNU/Linux OS the normal way (from repository or source code).
