@@ -16,11 +16,11 @@ copy_libs()
         if [ -h "$target" ]; then
             link_to_library="$target"
             library="$(readlink -f "$target")"
-            cp -P "$link_to_library" "$project_dir/lib/"
-            cp "$library" "$project_dir/lib/"
+            cp -P "$link_to_library" "$working_dir/lib/"
+            cp "$library" "$working_dir/lib/"
         else
             library="$target"
-            cp "$library" "$project_dir/lib/"
+            cp "$library" "$working_dir/lib/"
         fi
     done
 }
@@ -29,26 +29,26 @@ copy_linker()
 {
     target="$(ldd /usr/bin/mpv | grep -v '=>' | grep -v vdso | grep ld | awk '{print $1}')"
     linker="$(readlink -f "$target")"
-    cp "$linker" "$project_dir/lib/ld"
+    cp "$linker" "$working_dir/lib/ld"
 }
 
 copy_binary()
 {
-    cp "$app_path" "$project_dir/bin"
+    cp "$app_path" "$working_dir/bin"
 }
 
 create_wrapper()
 {
     echo '#!/bin/sh
 HERE=$(dirname $(readlink -f "${0}"))
-exec $HERE/lib/ld --library-path $HERE/lib $HERE/bin "$@"' >"$project_dir/wrapper"
-    chmod a+x "$project_dir/wrapper"
+exec $HERE/lib/ld --library-path $HERE/lib $HERE/bin "$@"' >"$working_dir/wrapper"
+    chmod a+x "$working_dir/wrapper"
 }
 
 create_tarball()
 {
-    cd "$project_dir/.."
-    tar -cvzf "${project_dir}.tgz" "${app_name}-portable/" && rm -rf "${project_dir}"
+    cd "$working_dir"
+    tar -cvzf "../${app_name}.tgz" . && cd .. && rm -rf "${working_dir}"
 }
 
 create_launcher()
@@ -58,8 +58,9 @@ HERE=$(dirname $(readlink -f "${0}"))
 NAME=$(basename $(readlink -f "${0}"))
 if [ ! -d /tmp/${NAME}-portable ]; then
     pwd="$(pwd)"
-    cd /tmp
-    tar -xzf ${HERE}/${NAME}-portable.tgz
+    mkdir -p /tmp/${NAME}-portable
+    cd /tmp/${NAME}-portable
+    tar -xzf ${HERE}/${NAME}.tgz
     cd "$pwd"
 fi
 exec /tmp/${NAME}-portable/wrapper "$@"' >$HOME/$app_name
@@ -68,7 +69,7 @@ exec /tmp/${NAME}-portable/wrapper "$@"' >$HOME/$app_name
 
 app_name="$1"
 app_path="$(which "$1")"
-project_dir="$HOME/${app_name}-portable"; rm -rf $project_dir; mkdir -p $project_dir/lib
+working_dir="$HOME/${app_name}-temp"; rm -rf $working_dir; mkdir -p $working_dir/lib
 
 main
 
