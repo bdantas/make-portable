@@ -5,10 +5,10 @@ Shell script that creates portable version of a GNU/Linux application that works
 So that, when that dusty old machine you haven't upgraded in years needs the newest version of some C or C++ application, you can avoid the pain of having to compile software on the old machine. If you want to be able to build an application on your daily-driver GNU/Linux OS then bundle everything that's needed for the application to run on an older OS, then this script may do the trick for you.
 
 # How do I use it?
-1. Install the desired application on the source GNU/Linux OS the normal way (from repository or source code). The script relies on *which* to find your application's binary, so make sure that the output of `which foo` is the path to the binary you want to bundle.  
-2. Run this script on the source OS. The script grabs the application's binary and all its dependent shared libraries (including glibc and libstdc++ if applicable). It also grabs source OS's linker (ld). Then script creates a wrapper script. All of that is put into a tarball. Script then creates a trivial launcher script. When the script finishes, the tarball and launcher script will be in your home folder.
-3. Copy the tarball and launcher script to the target GNU/Linux OS. You can put them in any directory, just make sure that both are in the same directory. You can rename the launcher and tarball at any time, as long as the names match (*foo* and *foo.tgz*).
-4. Use the launcher script exactly as you'd use the application.
+1. **Install the desired application on the source GNU/Linux OS** the normal way (from repository or source code). The script relies on *which* to find your application's binary, so make sure that the output of `which foo` is the path to the binary you want to bundle.  
+2. **Run this script on the source OS**, passing the name of the binary as the sole argument. The script grabs the application's binary and all its dependent shared libraries (including glibc and libstdc++ if applicable). It also grabs source OS's linker (ld). Then script creates a wrapper script. All of that is put into a tarball. Script then creates a trivial launcher script. When the script finishes, the tarball and launcher script will be in your home folder.
+3. **Copy the tarball and launcher script to the target GNU/Linux OS**. You can put them in any directory, just make sure that both are in the same directory. You can rename the launcher and tarball at any time, as long as the names match (*foo* and *foo.tgz*).
+4. **Use the launcher script as you'd use the application**.
 
 # Can you give a usage example?
 Sure. Main reason I created this script is so that I can build the newest mpv media player on my personal laptop, then run it on my digital media player, which uses an extremely ancient GNU/Linux OS. So I'll use mpv as an example.
@@ -29,7 +29,7 @@ In Debian-like OSes it is possible to have multiple versions of gcc and g++ inst
 I've never had success with using older glibc on newer machine with newer machine's default gcc. It seems that gcc version is tightly coupled with glibc version. However, there is an extremely clever way around this: https://github.com/wheybags/glibc_version_header The limitation here is that a workaround for g++/libstdc++ is still in the works. And even when it is found, there is still the issue of missing ancillary shared libraries as I mentioned above.
 
 # So how does it work?
-An LD_LIBRARY_PATH hack works great when the portability issue is missing *ancillary* shared libraries. However, glibc cannot be overridden by LD_LIBRARY_PATH. Fortunately, if the linker (ld) is called directly using the `--library-path` flag, then ancillary shared libraries as well as glibc/libstdc++ can be overriden. This is the central idea of my script. Also, by bundling *all* ancillary shared libraries, it is virtually impossible that anything necessary will be missing.
+An LD_LIBRARY_PATH hack works great when the portability issue is missing *ancillary* shared libraries. However, glibc cannot be overridden by LD_LIBRARY_PATH. To specify a library path that also overrides glibc/libstdc++, **linker (ld) needs to be called using the `--library-path` flag**. This is what the wrapper script does.
 
 # What are the dependencies to use this?
 coreutils, grep, awk, tar, and ldd (in Debian, ldd is part of libc-bin). I tried to use only tools that are expected to be present on every GNU/Linux system, so you shouldn't need to install anything on source or target OS. Also, root privileges are not needed to run the script on source OS or to run the portable application on the target OS.
