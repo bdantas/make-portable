@@ -5,7 +5,7 @@ Shell script that creates portable version of a GNU/Linux application that works
 So that, when that dusty old machine you haven't upgraded in years needs the newest version of some C or C++ application, you can avoid the pain of having to compile software on the old machine. If you want to be able to build an application on your daily-driver GNU/Linux OS then bundle everything that's needed for the application to run on an older OS, then this script may do the trick for you.
 
 # How do I use it?
-1. Install the desired application on the source GNU/Linux OS the normal way (from repository or source code).
+1. Install the desired application on the source GNU/Linux OS the normal way (from repository or source code). The script relies on *which* to find your application's binary, so make sure that the output of `which foo` is the path to the binary you want to bundle.  
 2. Run this script on the source OS. The script grabs the application's binary and all its dependent shared libraries (including glibc and libstdc++ if applicable). It also grabs source OS's linker (ld). Then script creates a wrapper script. All of that is put into a tarball. Script then creates a trivial launcher script. When the script finishes, the tarball and launcher script will be in your home folder.
 3. Copy the tarball and launcher script to the target GNU/Linux OS. You can put them in any directory, just make sure that both are in the same directory.
 4. Use the launcher script exactly as you'd use the application.
