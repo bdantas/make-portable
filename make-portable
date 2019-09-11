@@ -11,6 +11,7 @@ main()
 
 copy_libs()
 {
+    mkdir -p $working_dir/lib
     for target in $(ldd "$app_path" | grep '=>' | awk '{print $3}'); do
         if [ -h "$target" ]; then
             link_to_library="$target"
@@ -60,6 +61,6 @@ exec /tmp/${NAME}-portable/lib/ld --library-path /tmp/${NAME}-portable/lib /tmp/
 
 app_name="$1"
 app_path="$(which "$1")"
-working_dir="$HOME/${app_name}-temp"; rm -rf $working_dir; mkdir -p $working_dir/lib
+working_dir="$HOME/${app_name}-temp"
 
 main
