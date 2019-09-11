@@ -13,7 +13,7 @@ So that, when that dusty old machine you haven't upgraded in years needs the new
 # Can you give a usage example?
 Sure. Main reason I created this script is so that I can build the newest mpv media player on my personal laptop, then run it on my digital media player, which uses an extremely ancient GNU/Linux OS. So I'll use mpv as an example.
 
-1. Build newest mpv from source on my laptop and install it. I test it and see that it works properly. Output of `which mpv` is the correct path to the binary I want to make portable.   
+1. Build newest mpv from source on my laptop and install it. I test it and see that it works properly. I run `which mpv` and verify that it returns the path to the binary I want to make portable.   
 2. Run this command on my laptop: `$ make-portable mpv`
 3. Copy *mpv.tgz* and the *mpv* launcher script from my home directory onto a thumbdrive. Then copy *mpv.tgz* and the *mpv* launcher script from thumbdrive to home directory in media player.
 4. In media player: `$ /home/player/mpv /home/player/Videos/nicemovie.mkv`
