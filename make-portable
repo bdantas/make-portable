@@ -5,7 +5,6 @@ main()
     copy_libs
     copy_linker
     copy_binary
-    create_wrapper
     create_tarball
     create_launcher
 }
@@ -37,14 +36,6 @@ copy_binary()
     cp "$app_path" "$working_dir/bin"
 }
 
-create_wrapper()
-{
-    echo '#!/bin/sh
-HERE=$(dirname $(readlink -f "${0}"))
-exec $HERE/lib/ld --library-path $HERE/lib $HERE/bin "$@"' >"$working_dir/wrapper"
-    chmod a+x "$working_dir/wrapper"
-}
-
 create_tarball()
 {
     cd "$working_dir"
@@ -63,7 +54,7 @@ if [ ! -d /tmp/${NAME}-portable ]; then
     tar -xzf ${HERE}/${NAME}.tgz
     cd "$pwd"
 fi
-exec /tmp/${NAME}-portable/wrapper "$@"' >$HOME/$app_name
+exec /tmp/${NAME}-portable/lib/ld --library-path /tmp/${NAME}-portable/lib /tmp/${NAME}-portable/bin "$@"' >$HOME/$app_name
     chmod a+x $HOME/$app_name
 }
 
@@ -72,4 +63,3 @@ app_path="$(which "$1")"
 working_dir="$HOME/${app_name}-temp"; rm -rf $working_dir; mkdir -p $working_dir/lib
 
 main
-
