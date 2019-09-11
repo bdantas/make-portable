@@ -1,11 +1,11 @@
 # make-portable
-Shell script that creates portable version of a GNU/Linux application that works even on older target OSes.
+Simple shell script that bundles everything needed for a GNU/Linux application to run on an older target system. 
 
 # Why would I want this?
 So that, when that dusty old machine you haven't upgraded in years needs the newest version of some C or C++ application, you're not forced to compile software on the old machine. If you want to be able to build an application on your daily-driver GNU/Linux OS then bundle everything that's needed for the application to run on an older OS, then this script may do the trick for you.
 
 # How do I use it?
-1. **Install the desired application on the source GNU/Linux OS** the normal way (from repository or source code). The script relies on *which* to find your application's binary, so make sure that the output of `which foo` is the path to the binary you want to bundle.  
+1. **Install the desired application on the source GNU/Linux OS** the normal way (from repository or source code). The script relies on *which* to find your application's binary, so make sure that the output of `which foo` is the path to the binary you want to bundle.
 2. **Run this script on the source OS**, passing the name of the binary as the sole argument. The script grabs the application's binary and all its shared library dependencies (including glibc and libstdc++ if applicable). It also grabs source OS's linker (ld). All of that is put into a tarball. Script then creates a launcher script. When the script finishes, the tarball and launcher script will be in your home folder.
 3. **Copy the tarball and launcher script to the target GNU/Linux OS**. You can put them in any directory, just make sure that both are in the same directory. You can rename the launcher and tarball at any time, as long as the names match (*foo* and *foo.tgz*).
 4. **Use the launcher script as you'd use the application**.
@@ -13,7 +13,7 @@ So that, when that dusty old machine you haven't upgraded in years needs the new
 # Can you give a usage example?
 Sure. Main reason I created this script is so that I can build the newest mpv media player on my personal laptop, then run it on my digital media player, which uses an extremely ancient GNU/Linux OS. So I'll use mpv as an example.
 
-1. Build newest mpv from source on my laptop and install it. I test it and see that it works properly. I run `which mpv` and verify that it returns the path to the binary I want to make portable.   
+1. Build newest mpv from source on my laptop and install it. I test it and see that it works properly. I run `which mpv` and verify that it returns the path to the binary I want to make portable.
 2. Run this command on my laptop: `$ make-portable mpv`
 3. Copy *mpv.tgz* and the *mpv* launcher script from my home directory onto a thumbdrive. Then copy *mpv.tgz* and the *mpv* launcher script from thumbdrive to home directory in media player.
 4. In media player: `$ /home/player/mpv /home/player/Videos/nicemovie.mkv`
