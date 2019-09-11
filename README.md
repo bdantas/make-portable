@@ -28,7 +28,7 @@ In Debian-like OSes it is possible to have multiple versions of gcc and g++ inst
 I've never had success with using older glibc on newer machine with newer machine's default gcc. It seems that gcc version is tightly coupled with glibc version. However, there is an extremely clever way around this: https://github.com/wheybags/glibc_version_header The limitation here is that a workaround for g++/libstdc++ is still in the works. And even when it is found, there is still the issue of missing ancillary shared libraries as I mentioned above.
 
 # So how does it work?
-An LD_LIBRARY_PATH hack works great when the portability issue is missing *ancillary* shared libraries. However, glibc cannot be overridden by LD_LIBRARY_PATH. To specify a library path that also overrides glibc/libstdc++, **linker (ld) needs to be called using the `--library-path` flag**. This is what the wrapper script does.
+An LD_LIBRARY_PATH hack works great when the portability issue is missing *ancillary* shared libraries. However, glibc cannot be overridden by LD_LIBRARY_PATH. To specify a library path that also overrides glibc/libstdc++, **linker (ld) needs to be called using the `--library-path` flag**. This is the trick that *make-portable* exploits.
 
 # What are the dependencies to use this?
 coreutils, grep, awk, tar, and ldd (in Debian, ldd is part of libc-bin). I tried to use only tools that are expected to be present on every GNU/Linux system, so you shouldn't need to install anything on source or target OS. Also, root privileges are not needed to run the script on source OS or to run the portable application on the target OS.
