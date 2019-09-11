@@ -41,4 +41,4 @@ coreutils, grep, awk, tar, and ldd (in Debian, ldd is part of libc-bin). I tried
 5. A better approach than to use *make-portable* is to roll up your sleeves and compile on the old target machine if at all possible.
 
 # Your hack is very ugly.
-I know. But under some circumstances it may be the only way to get new software to run on a really old machine.
+I know, but under some circumstances it may be the only way to get new software running on a really old machine.
