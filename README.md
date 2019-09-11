@@ -6,7 +6,7 @@ So that, when that dusty old machine you haven't upgraded in years needs the new
 
 # How do I use it?
 1. **Install the desired application on the source GNU/Linux OS** the normal way (from repository or source code). The script relies on *which* to find your application's binary, so make sure that the output of `which foo` is the path to the binary you want to bundle.  
-2. **Run this script on the source OS**, passing the name of the binary as the sole argument. The script grabs the application's binary and all its dependent shared libraries (including glibc and libstdc++ if applicable). It also grabs source OS's linker (ld). All of that is put into a tarball. Script then creates a launcher script. When the script finishes, the tarball and launcher script will be in your home folder.
+2. **Run this script on the source OS**, passing the name of the binary as the sole argument. The script grabs the application's binary and all its shared library dependencies (including glibc and libstdc++ if applicable). It also grabs source OS's linker (ld). All of that is put into a tarball. Script then creates a launcher script. When the script finishes, the tarball and launcher script will be in your home folder.
 3. **Copy the tarball and launcher script to the target GNU/Linux OS**. You can put them in any directory, just make sure that both are in the same directory. You can rename the launcher and tarball at any time, as long as the names match (*foo* and *foo.tgz*).
 4. **Use the launcher script as you'd use the application**.
 
