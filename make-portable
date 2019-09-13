@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# make-portable v1.2
+# Bruno "GNUser" Dantas GPLv3
+
 main()
 {
     copy_libs
