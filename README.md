@@ -1,5 +1,5 @@
 # make-portable
-Simple shell script that bundles everything needed for a GNU/Linux application to run on an older target system.
+Simple shell script that bundles everything needed for a GNU/Linux application to run on a different system--even systems with older glibc/libstdc++ versions.
 
 # How it works
 The script copies the specified binary, all its dynamically linked libraries (including glibc and, if appropriate, libstdc++), and source system's linker (ld) into a tarball. A launcher script is also created. Both the tarball and launcher script are placed in user's home directory.
