@@ -1,10 +1,13 @@
 # make-portable
-Simple shell script that bundles everything needed for a GNU/Linux application to run on an older target system. 
+Simple shell script that bundles everything needed for a GNU/Linux application to run on an older target system.
 
-# Why would I want this?
-So that, when that dusty old machine you haven't upgraded in years needs the newest version of some C or C++ application, you're not forced to compile software on the old machine. If you want to be able to build an application on your daily-driver GNU/Linux OS then bundle everything that's needed for the application to run on an older OS, then this script may do the trick for you.
+# Wait, so you're saying that I can't just compile a binary on a new GNU/Linux machine then run it on an older GNU/Linux machine of the same architecture?
+If we're talking about software compiled against glibc or libstdc++, yes that's right. It has to do with how glibc and libstdc++ are developed. Programs compiled on older versions of glibc and libstdc++ continue to work with newer versions of those libraries. However, programs compiled on newer versions of glibc and libstdc++ generally don't work with older versions of those libraries--even if all the functions/symbols the program needs are present in the older versions. Maybe this kind of breakage is gratuitous and sadistic, maybe not. I don't know for sure, so can't criticize. All I know is that this issue is a massive source of pain. Also, some alternative C libraries (at least musl) are developed in way that takes care not to do this (read about "forwards compatibility" here: https://www.etalabs.net/compare_libcs.html).
 
-# How do I use it?
+# Why would I want to use this script?
+When that dusty old machine you haven't upgraded in years needs the newest version of some C or C++ application, you have to contend with the issue I described above. You either need to compile on the old machine or you need a hack. If compiling on the old machine is not an option for whatever reason (e.g., you can no longer find some of the build dependencies), then the approach taken by the script is one of the very few options available.
+
+# So how do I use the script?
 1. **Install the desired application on the source GNU/Linux OS** the normal way (from repository or source code). The script relies on *which* to find your application's binary, so make sure that the output of `which foo` is the path to the binary you want to bundle.
 2. **Run this script on the source OS**, passing the name of the binary as the sole argument. The script grabs the application's binary and all its shared library dependencies (including glibc and libstdc++ if applicable). It also grabs source OS's linker (ld). All of that is put into a tarball. Script then creates a launcher script. When the script finishes, the tarball and launcher script will be in your home folder.
 3. **Copy the tarball and launcher script to the target GNU/Linux OS**. You can put them in any directory, just make sure that both are in the same directory. You can rename the launcher and tarball at any time, as long as the names match (*foo* and *foo.tgz*).
@@ -39,9 +42,6 @@ coreutils, grep, awk, tar, and ldd (in Debian, ldd is part of libc-bin). I tried
 3. Running the application on target OS will use more RAM than it would if you were to do the "right thing" (see #5 below).
 4. foo.tgz will contain only the shared libraries that the binary itself is linked to. If while running on the target system the portable app (either the binary itself or the bundled libraries) tries to load additional libraries, it may look in the places where those libraries normally reside in the *source* OS. Sometimes there's an environmental variable you can use in the target OS that fixes the problem (for example, if app can't find libGL dri drivers, use `export LIBGL_DRIVERS_PATH=/path/to/dri/`). If there isn't an environmental variable you can use, you can always fall back on creating symlinks in the target OS. Just use `find` or `locate` in both source and target OS to figure out where the symlink should point *from* (location of library in source OS) and *to* (location of library in target OS).
 5. A better approach than to use *make-portable* is to roll up your sleeves and compile on the old target machine if at all possible.
-
-# Why does this problem exist in the first place?
-It has to do with how glibc and libstdc++ are developed. Programs compiled on older versions of glibc and libstdc++ continue to work with newer versions of these libraries. However, programs compiled on newer versions of glibc and libstdc++ generally don't work with older versions of these libraries--even if all the functions/symbols the program needs are present in the older versions due to subtle changes in ABI. Perhaps this kind of breakage is inevitable given the nature of glibc and libstdc++. I don't know for sure one way or another, so far be it for me to criticize. However, this issue is certainly a massive source of pain. Also, some alternative C libraries (at least musl) are developed in such a way as to avoid this problem (read about "forwards compatibility" here: https://www.etalabs.net/compare_libcs.html).
 
 # Your hack is very ugly.
 I know, but under some circumstances it may be the only way to get new software running on a really old machine.
