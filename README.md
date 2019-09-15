@@ -13,7 +13,7 @@ The script copies the specified binary, all its dynamically linked libraries (in
 # Usage example
 Main reason I created this script is so that I can build the newest mpv media player on my personal laptop, then run it on my digital media player, which uses an extremely ancient GNU/Linux OS. So I'll use mpv as an example.
 
-1. Build newest mpv from source on my laptop and install it
+1. Build newest mpv from source on my laptop, install it, make sure it works and is in my PATH
 2. Run this command on my laptop: `$ make-portable mpv`
 3. Copy $HOME/mpv.tgz and $HOME/mpv from laptop to media player
 4. In media player: `$ /path/to/mpv /path/to/nicemovie.mkv`
