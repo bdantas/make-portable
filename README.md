@@ -5,9 +5,9 @@ Simple shell script that bundles everything needed for a GNU/Linux application t
 The script copies the specified binary, all its dynamically linked libraries (including glibc and, if appropriate, libstdc++), and source system's linker (ld) into a tarball. A launcher script is also created. Both the tarball and launcher script are placed in user's home directory.
 
 # Usage directions
-1. Install the desired application on the source GNU/Linux OS the usual way (from repository or source code)
-2. Run this script on the source OS, passing the name of the binary as the sole argument
-3. Copy the resulting tarball and launcher script to the target GNU/Linux OS
+1. Install the desired application on the source GNU/Linux system the usual way (from repository or source code)
+2. Run this script on the source system, passing the name of the binary as the sole argument
+3. Copy the resulting tarball and launcher script to the target GNU/Linux system
 4. Use the launcher script as you'd use the application
 
 # Usage example
