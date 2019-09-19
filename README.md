@@ -26,9 +26,9 @@ coreutils, grep, awk, tar, and ldd (in Debian, ldd is part of libc-bin). I tried
 2. Bloat. The portable application will be bigger and use more RAM than a traditional installation of the same application.
 3. The portable application will contain only the shared libraries that the binary is linked to. If the application needs to load additional libraries while it's running, it may look for those libraries in the places where the libraries normally reside in the *source* OS. Sometimes there's an environmental variable you can use in the target OS that fixes the problem (for example, if app can't find libGL dri drivers, use `export LIBGL_DRIVERS_PATH=/path/to/dri/`). If there isn't an environmental variable you can use, you can always fall back on creating symlinks in the target OS (pointing from location of library in source OS to correct location of library in the target OS).
 4. Needing a wrapper script on the target system is clunky. A more elegant alternative is to use my script to collect things on source system (binary, linker, libraries), put these in a permanent place on target system, then use patchelf (https://nixos.org/patchelf.html) to patch the binary (so it points to the transplanted linker and libraries) and patch the libraries (so they can find their fellow transplanted libraries). I'll use mpv as an example of how to do this:
-a. Run `$ make-portable` on source system to collect what we need
-b. Copy mpv.tgz to target system's */tmp* directory
-c. Follow run these commands on target system:
+- Run `$ make-portable` on source system to collect what we need
+- Copy mpv.tgz to target system's */tmp* directory
+- Follow run these commands on target system:
   ```
   $ cd /tmp
   $ tar -xvzf mpv.tgz
