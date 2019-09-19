@@ -33,7 +33,7 @@ coreutils, grep, awk, tar, and ldd (in Debian, ldd is part of libc-bin). I tried
   $ cd /tmp
   $ tar -xvzf mpv.tgz
   $ sudo mkdir -p /var/lib/mpv
-  # move the transplanted ld unaltered to /var/lib/mpv:
+  # move the transplanted ld, unaltered, to /var/lib/mpv:
   $ sudo mv /tmp/lib/ld /var/lib/mpv/
   # patch the libraries so that they can find one another, then move them to /var/lib/mpv:
   $ for library in /tmp/lib/*; do patchelf --set-rpath /var/lib/mpv $library; done
