@@ -38,7 +38,7 @@ coreutils, grep, awk, tar, and ldd (in Debian, ldd is part of libc-bin). I tried
   # patch the libraries so that they can find one another, then move them to /var/lib/foo:
   $ for library in /tmp/lib/*; do patchelf --set-rpath /var/lib/foo $library; done
   $ sudo mv /tmp/lib/* /var/lib/foo/
-  # patch the binary so it can find the transplanted ld and libraries, move it to /usr/local/bin:
+  # patch the binary so it can find the transplanted ld and libraries, then move it to /usr/local/bin:
   $ patchelf --set-rpath /var/lib/foo /tmp/bin
   $ patchelf --set-interpreter /var/lib/foo/ld /tmp/bin
   $ sudo mv /tmp/bin /usr/local/bin/foo
