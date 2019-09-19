@@ -28,7 +28,7 @@ coreutils, grep, awk, tar, and ldd (in Debian, ldd is part of libc-bin). I tried
 4. Needing a wrapper script on the target system is clunky. A more elegant (but slightly more labor-intensive) solution is to use my script to collect things on source system (binary, linker, libraries), put these things in a permanent place on target system, then use patchelf (https://nixos.org/patchelf.html) to patch the libraries and binary so that they can find one another in the target system. Here's an example of this approach:
   - Run `$ make-portable foo` on source system to collect what we need
   - Copy foo.tgz from your home folder on source system to target system's */tmp* directory
-  - Follow run these commands on target system:
+  - Run these commands on target system:
   ```
   $ cd /tmp
   $ tar -xvzf foo.tgz
