@@ -5,61 +5,61 @@
 
 main()
 {
-    copy_libs
-    copy_linker
-    copy_binary
-    create_tarball
-    create_launcher
+	copy_libs
+	copy_linker
+	copy_binary
+	create_tarball
+	create_launcher
 }
 
 copy_libs()
 {
-    mkdir -p $working_dir/lib
-    for target in $(ldd "$app_path" | grep '=>' | awk '{print $3}'); do
-        if [ -h "$target" ]; then
-            link_to_library="$target"
-            library="$(readlink -f "$target")"
-            cp -P "$link_to_library" "$working_dir/lib/"
-            cp "$library" "$working_dir/lib/"
-        else
-            library="$target"
-            cp "$library" "$working_dir/lib/"
-        fi
-    done
+	mkdir -p $working_dir/lib
+	for target in $(ldd "$app_path" | grep '=>' | awk '{print $3}'); do
+		if [ -h "$target" ]; then
+			link_to_library="$target"
+			library="$(readlink -f "$target")"
+			cp -P "$link_to_library" "$working_dir/lib/"
+			cp "$library" "$working_dir/lib/"
+		else
+			library="$target"
+			cp "$library" "$working_dir/lib/"
+		fi
+	done
 }
 
 copy_linker()
 {
-    target="$(ldd /usr/bin/mpv | grep -v '=>' | grep -v vdso | grep ld | awk '{print $1}')"
-    linker="$(readlink -f "$target")"
-    cp "$linker" "$working_dir/lib/ld"
+	target="$(ldd /usr/bin/mpv | grep -v '=>' | grep -v vdso | grep ld | awk '{print $1}')"
+	linker="$(readlink -f "$target")"
+	cp "$linker" "$working_dir/lib/ld"
 }
 
 copy_binary()
 {
-    cp "$app_path" "$working_dir/bin"
+	cp "$app_path" "$working_dir/bin"
 }
 
 create_tarball()
 {
-    cd "$working_dir"
-    tar -cvzf "../${app_name}.tgz" . && cd .. && rm -rf "${working_dir}"
+	cd "$working_dir"
+	tar -cvzf "../${app_name}.tgz" . && cd .. && rm -rf "${working_dir}"
 }
 
 create_launcher()
 {
-    echo '#!/bin/sh
+	echo '#!/bin/sh
 HERE=$(dirname $(readlink -f "${0}"))
 NAME=$(basename $(readlink -f "${0}"))
 if [ ! -d /tmp/${NAME}-portable ]; then
-    pwd="$(pwd)"
-    mkdir -p /tmp/${NAME}-portable
-    cd /tmp/${NAME}-portable
-    tar -xzf ${HERE}/${NAME}.tgz
-    cd "$pwd"
+	pwd="$(pwd)"
+	mkdir -p /tmp/${NAME}-portable
+	cd /tmp/${NAME}-portable
+	tar -xzf ${HERE}/${NAME}.tgz
+	cd "$pwd"
 fi
 exec /tmp/${NAME}-portable/lib/ld --library-path /tmp/${NAME}-portable/lib /tmp/${NAME}-portable/bin "$@"' >$HOME/$app_name
-    chmod a+x $HOME/$app_name
+	chmod a+x $HOME/$app_name
 }
 
 app_name="$1"
