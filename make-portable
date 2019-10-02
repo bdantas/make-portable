@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# make-portable v1.2
+# make-portable v1.3
 # Bruno "GNUser" Dantas GPLv3
 
 main()
@@ -9,7 +9,7 @@ main()
 	copy_linker
 	copy_binary
 	create_tarball
-	create_launcher
+	create_wrapper
 }
 
 copy_libs()
@@ -30,7 +30,7 @@ copy_libs()
 
 copy_linker()
 {
-	target="$(ldd /usr/bin/mpv | grep -v '=>' | grep -v vdso | grep ld | awk '{print $1}')"
+	target="$(ldd $app_path | grep -v '=>' | grep -v vdso | grep ld | awk '{print $1}')"
 	linker="$(readlink -f "$target")"
 	cp "$linker" "$working_dir/lib/ld"
 }
@@ -46,7 +46,7 @@ create_tarball()
 	tar -cvzf "../${app_name}.tgz" . && cd .. && rm -rf "${working_dir}"
 }
 
-create_launcher()
+create_wrapper()
 {
 	echo '#!/bin/sh
 HERE=$(dirname $(readlink -f "${0}"))
