@@ -33,12 +33,12 @@ grep, awk, tar, and ldd. In other words, the dependencies are minimal and should
   $ cd /tmp
   $ tar -xvzf foo.tgz
   $ sudo mkdir -p /var/lib/foo
-  # move the transplanted ld, unaltered, to /var/lib/foo:
+   1. move the transplanted ld, unaltered, to /var/lib/foo:
   $ sudo mv /tmp/lib/ld /var/lib/foo/
-  # patch the libraries so that they can find one another, then move them to /var/lib/foo:
+   2. patch the libraries so that they can find one another, then move them to /var/lib/foo:
   $ for library in /tmp/lib/*; do patchelf --set-rpath /var/lib/foo $library; done
   $ sudo mv /tmp/lib/* /var/lib/foo/
-  # patch the binary so it can find the transplanted ld and libraries, then move it to /usr/local/bin:
+   3. patch the binary so it can find the transplanted ld and libraries, then move it to /usr/local/bin:
   $ patchelf --set-interpreter /var/lib/foo/ld /tmp/bin
   $ patchelf --set-rpath /var/lib/foo /tmp/bin
   $ sudo mv /tmp/bin /usr/local/bin/foo
