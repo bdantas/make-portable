@@ -19,7 +19,7 @@ Main reason I created this script is so that I can build the newest mpv media pl
 4. In media player: `$ /path/to/mpv /path/to/nicemovie.mkv`
 
 # Dependencies
-coreutils, grep, awk, tar, and ldd (in Debian, ldd is part of libc-bin). I tried to use only tools that are expected to be present on every GNU/Linux system, so you shouldn't need to install anything on source or target OS. Also, root privileges are not needed to create or run the portable application.
+grep, awk, tar, and ldd. In other words, the dependencies are minimal and should be present on every GNU/Linux system. Also, root privileges are not required to create or run the portable application.
 
 # Caveats
 1. If the application is a single binary written in C/C++ that needs only glibc, libstdc++, and ancillary shared libraries, then *make-portable* takes care of everything automatically for you. If the application consists of multiple binaries and/or has data files, then manual tweaks will be needed.
