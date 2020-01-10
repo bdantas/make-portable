@@ -11,7 +11,7 @@ The script copies the specified binary, all its dynamically linked libraries (in
 4. Use the wrapper script as you'd use the application
 
 # Usage example
-Main reason I created this script is so that I can build the newest mpv media player on my personal laptop, then run it on my digital media player, which uses an extremely ancient GNU/Linux OS. So I'll use mpv as an example.
+Main reason I created this script is so that I can build the newest mpv media player on my personal laptop then run it on my digital media player (which uses an extremely ancient GNU/Linux OS). So I'll use mpv as an example:
 
 1. Build newest mpv from source on my laptop, install it, make sure it works and is in my PATH
 2. Run this command on my laptop: `$ make-portable mpv`
