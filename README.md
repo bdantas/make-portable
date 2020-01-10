@@ -15,8 +15,8 @@ Main reason I created this script is so that I can build the newest mpv media pl
 
 1. Build newest mpv from source on my laptop, install it, make sure it works and is in my PATH
 2. Run this command on my laptop: `$ make-portable mpv`
-3. Copy $HOME/mpv.tgz and $HOME/mpv from laptop to media player
-4. In media player: `$ /path/to/mpv /path/to/nicemovie.mkv`
+3. Copy *mpv.tgz* and *mpv* from laptop's home directory to media player's */usr/local/bin/*
+4. In media player: `$ mpv /path/to/nicemovie.mkv`
 
 # Dependencies
 grep, awk, tar, and ldd. In other words, the dependencies are minimal and should be present on every GNU/Linux system. Also, root privileges are not required to create or run the portable application.
