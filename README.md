@@ -27,7 +27,7 @@ grep, awk, tar, and ldd. In other words, the dependencies are minimal and should
 3. The portable application will contain only the shared libraries that the binary is linked to. If the application needs to load additional libraries while it's running, it may look for those libraries in the places where the libraries normally reside in the *source* OS. Sometimes there's an environmental variable you can use in the target OS that fixes the problem (for example, if app can't find graphics drivers, use `export LIBGL_DRIVERS_PATH=/path/to/dri/`). If there isn't an environmental variable you can use, you can always fall back on creating symlinks in the target OS (pointing from location of library in source OS to correct location of library in the target OS).
 4. Needing a wrapper script on the target system is clunky. A more elegant (but root-requiring and labor-intensive) solution is to use my script to collect things (binary, linker, libraries) on source system, put these things in a permanent place on target system, then use patchelf (https://nixos.org/patchelf.html) to patch the libraries and binary so that they can find one another in the target system. Here's an example of this approach:
   - Run `$ make-portable foo` on source system to collect what we need
-  - Copy foo.tgz from your home folder on source system to target system's */tmp* directory
+  - Copy foo.tgz from your home folder on source system to target system's */tmp* directory (you don't need wrapper script)
   - Run these commands on target system:
   ```
   $ cd /tmp
