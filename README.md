@@ -15,7 +15,7 @@ The main reason I created this script is so that I can build the newest mpv medi
 
 1. Build newest mpv from source on my laptop, install it, make sure it works and is in my PATH
 2. Run this command on my laptop: `$ make-portable mpv`
-3. Copy the resulting tarball (*mpv.tgz*) and wrapper script (*mpv*) from laptop's home directory to media player's */usr/local/bin/*
+3. Copy the resulting tarball (*mpv.tgz*) and wrapper script (*mpv*) from laptop's home directory to any directory on media player (I chose */usr/local/bin/*)
 4. In media player: `$ mpv /path/to/nicemovie.mkv`
 
 # Dependencies
