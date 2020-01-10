@@ -7,7 +7,7 @@ The script copies the specified binary, all its dynamically linked libraries (in
 # Usage directions
 1. Install the desired application on the source GNU/Linux system the usual way (from repository or source code)
 2. Run this script on the source system, passing the name of the binary as the sole argument
-3. Copy the resulting tarball and wrapper script to the target GNU/Linux system (you can copy them into any directory on target system, just make sure the tarball and wrapper script stay together in the same directory)
+3. Copy the resulting tarball and wrapper script to the target GNU/Linux system (you can copy them into any directory on target system, as long as tarball and wrapper script are both in the same directory)
 4. Use the wrapper script as you'd use the application
 
 # Usage example
