@@ -25,21 +25,3 @@ grep, awk, tar, and ldd. In other words, the dependencies are minimal and should
 1. If the application is a single binary written in C/C++ that needs only glibc, libstdc++, and ancillary shared libraries, then *make-portable* takes care of everything automatically for you. If the application consists of multiple binaries and/or has data files, then manual tweaks will be needed.
 2. Bloat. The portable application will be bigger and use more RAM than a traditional installation of the same application.
 3. The portable application will contain only the shared libraries that the binary is linked to. If the application needs to load additional libraries while it's running, it may look for those libraries in the places where the libraries normally reside in the *source* OS. Sometimes there's an environmental variable you can use in the target OS that fixes the problem (for example, if app can't find graphics drivers, use `export LIBGL_DRIVERS_PATH=/path/to/dri/`). If there isn't an environmental variable you can use, you can always fall back on creating symlinks in the target OS (pointing from location of library in source OS to correct location of library in the target OS).
-4. Needing a wrapper script on the target system is clunky. A more elegant (but root-requiring and labor-intensive) solution is to use my script to collect things (binary, linker, libraries) on source system, put these things in a permanent place on target system, then use patchelf (https://nixos.org/patchelf.html) to patch the libraries and binary so that they can find one another in the target system. Here's an example of this approach:
-  - Run `$ make-portable foo` on source system to collect what we need
-  - Copy foo.tgz from your home folder on source system to target system's */tmp* directory
-  - Run these commands on target system:
-  ```
-  $ cd /tmp
-  $ tar -xvzf foo.tgz
-  $ sudo mkdir -p /var/lib/foo
-   1. move the transplanted ld, unaltered, to /var/lib/foo:
-  $ sudo mv /tmp/lib/ld /var/lib/foo/
-   2. patch the libraries so that they can find one another, then move them to /var/lib/foo:
-  $ for library in /tmp/lib/*; do patchelf --set-rpath /var/lib/foo $library; done
-  $ sudo mv /tmp/lib/* /var/lib/foo/
-   3. patch the binary so it can find the transplanted ld and libraries, then move it to /usr/local/bin:
-  $ patchelf --set-interpreter /var/lib/foo/ld /tmp/bin
-  $ patchelf --set-rpath /var/lib/foo /tmp/bin
-  $ sudo mv /tmp/bin /usr/local/bin/foo
-```
